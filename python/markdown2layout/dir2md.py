@@ -1,6 +1,5 @@
 import os
-import fileinput
-import glob
+import tidy_md
 
 def concat_files(files, destination_file):
     '''Concat all files in the list to one file'''
@@ -9,8 +8,10 @@ def concat_files(files, destination_file):
     for filename in files:
         with open(filename, 'r', encoding="utf-8") as fileIn:
             concat_data += fileIn.read()
-            concat_data += '\n\n'
-        
+            concat_data += '\n'
+
+    concat_data = tidy_md.tidy_text(concat_data, remove_links=True)
+    
     with open(destination_file, 'w', encoding="utf-8") as fileOut:
         fileOut.write(concat_data)
 
